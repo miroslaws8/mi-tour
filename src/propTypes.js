@@ -17,6 +17,8 @@ export const propTypes = {
   maskClassName: PropTypes.string,
   maskSpace: PropTypes.number,
   nextButton: PropTypes.node,
+  renderPrevButton: PropTypes.func,
+  renderNextButton: PropTypes.func,
   onAfterOpen: PropTypes.func,
   onBeforeClose: PropTypes.func,
   onRequestClose: PropTypes.func,

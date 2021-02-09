@@ -43,11 +43,13 @@ function Tour({
   maskClassName,
   showButtons,
   showNavigation,
-  prevButton,
+  prevButtonLabel,
+  renderPrevButton,
+  renderNextButton,
   showNavigationNumber,
   disableDotsNavigation,
   lastStepNextButton,
-  nextButton,
+  nextButtonLabel,
   rounded,
   maskSpace,
   showCloseButton,
@@ -119,7 +121,7 @@ function Tour({
       window.removeEventListener('keydown', keyHandler)
       window.removeEventListener('resize', debouncedShowStep)
     }
-  }, [current, isOpen])
+  }, [document.location.href, current, isOpen])
 
   function keyHandler(e) {
     e.stopPropagation()
@@ -344,7 +346,7 @@ function Tour({
                     <Arrow
                       onClick={prevStep}
                       disabled={current === 0}
-                      label={prevButton ? prevButton : null}
+                      label={prevButtonLabel ? prevButtonLabel : null}
                     />
                   )}
 
@@ -389,8 +391,8 @@ function Tour({
                       label={
                         lastStepNextButton && current === steps.length - 1
                           ? lastStepNextButton
-                          : nextButton
-                          ? nextButton
+                          : nextButtonLabel
+                          ? nextButtonLabel
                           : null
                       }
                     />
