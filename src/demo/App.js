@@ -136,8 +136,15 @@ const tourConfig = [
     },
   },
   {
-    selector: '[data-tut="reactour__logo"]',
-    content: 'And this is our cool bus...',
+    skipNotExistNode: ({current, goTo}) => {
+        console.log(`skip ${current}`);
+    },
+    selector: '[data-tut="reactour__logo443"]',
+      content: ({ goTo, inDOM }) => {
+          return <div>
+              {inDOM && 'Chose the order status you are interested in'}
+          </div>
+      },
     position: [20, 20],
   },
   {

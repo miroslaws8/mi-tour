@@ -72,7 +72,7 @@ function Tour({
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
           setTimeout(
             () => makeCalculations(getNodeRect(mutation.addedNodes[0])),
-            500
+            200
           )
         } else if (
           mutation.type === 'childList' &&
@@ -176,8 +176,8 @@ function Tour({
     setCurrent(step)
   }
 
-  async function showStep(nextStep) {
-    const step = steps[nextStep] || steps[current]
+  async function showStep(nxtStep) {
+    const step = steps[nxtStep] || steps[current]
     const { w, h } = getWindow()
 
     if (step.actionBefore && typeof step.actionBefore === 'function') {
@@ -185,6 +185,11 @@ function Tour({
     }
 
     const node = step.selector ? document.querySelector(step.selector) : null
+
+    if (!node) {
+      step.skipNotExistNode && typeof step.skipNotExistNode === 'function' ? step.skipNotExistNode({current, goTo}) : nextStep();
+      return false;
+    }
 
     if (step.observe) {
       observer.current = document.querySelector(step.observe)
@@ -266,6 +271,7 @@ function Tour({
           step: current + 1,
         })
       : steps[current].content)
+
 
   return isOpen ? (
     <Portal>
@@ -433,6 +439,7 @@ function reducer(state, action) {
     case 'NO_DOM_NODE':
       return {
         ...state,
+        inDOM: false,
         top: state.h + 10,
         right: state.w / 2 + 9,
         bottom: state.h / 2 + 9,
